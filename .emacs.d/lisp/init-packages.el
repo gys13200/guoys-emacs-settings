@@ -25,6 +25,9 @@
 				   ;; 将光标移动到新建的窗口上
 				   popwin
 				   ;;ergoemacs-mode
+				   ;; git-emacs 工具
+				   ;;git-emacs
+				   ;;magit
 				   )  "Default packages")
 
 (setq package-selected-packages guoys/packages)
@@ -73,6 +76,14 @@
 
 (require 'popwin)
 (popwin-mode 1)
+
+
+
+
+
+(add-to-list 'load-path "~/.emacs.d/packages/git-emacs")
+(require 'git-emacs)
+;;(require 'magit)
 ;;(require 'show-paren)
 
 ;;(require 'indent-guide)
