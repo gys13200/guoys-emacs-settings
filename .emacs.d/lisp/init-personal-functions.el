@@ -8,4 +8,12 @@
   (interactive)
   (find-file "~/.emacs.d/init.el"))
 
+(defun my-ecb-active-or-deactive () 
+  (interactive)
+  (if ecb-minor-mode 
+      (ecb-deactivate)
+    (ecb-activate)
+    )
+  )
+
 (provide 'init-personal-functions)

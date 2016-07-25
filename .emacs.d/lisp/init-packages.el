@@ -1,7 +1,9 @@
+
 (when (>= emacs-major-version 24)
     (require 'package)
     (package-initialize)
     (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+    ;;(add-to-list 'package-archives '("popkit" . "https://elpa.popkit.org/packages") t)
     )
 
 
@@ -28,6 +30,12 @@
 				   ;; git-emacs ¹¤¾ß
 				   ;;git-emacs
 				   ;;magit
+
+				   jdee
+				   cedet
+				   ;;elib
+				   ecb
+				   helm
 				   )  "Default packages")
 
 (setq package-selected-packages guoys/packages)
@@ -90,4 +98,27 @@
 ;;(setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
 ;;(setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
 ;;(ergoemacs-mode 1)
+
+(define-key company-active-map (kbd "\C-n") 'company-select-next)
+(define-key company-active-map (kbd "\C-p") 'company-select-previous)
+(define-key company-active-map (kbd "\C-d") 'company-show-doc-buffer)
+(define-key company-active-map (kbd "\C-v") 'company-show-location)
+(define-key company-active-map (kbd "<tab>") 'company-complete)
+(define-key company-active-map (kbd "\C-g") '(lambda ()
+					       (interactive)
+					       (company-abort)))
+
+(require 'ecb)
+
+;;(setq ecb-auto-activate t ecb-tip-of-the-day nil)
+(setq ecb-layout-name "leftright-sa-m")
+(setq ecb-tip-of-the-day nil)
+;;(require 'semantic-tag-folding nil 'noerror)
+;;(global-semantic-tag-folding-mode 1)  
+
+(add-hook 'jdee-mode-hook 'hs-minor-mode)
+
+(require 'cedet)
+;;(require 'semantic-ia)
+
 (provide 'init-packages)
