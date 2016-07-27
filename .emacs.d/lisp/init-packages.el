@@ -29,13 +29,14 @@
 				   ;;ergoemacs-mode
 				   ;; git-emacs ¹¤¾ß
 				   ;;git-emacs
-				   ;;magit
+				   magit
 
 				   jdee
 				   cedet
 				   ;;elib
 				   ecb
 				   helm
+				   use-package
 				   )  "Default packages")
 
 (setq package-selected-packages guoys/packages)
@@ -56,12 +57,20 @@
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 
-(require 'hungry-delete)
-(global-hungry-delete-mode)
+(use-package hungry-delete
+  :init
+  (global-hungry-delete-mode)
+  )
+;;(require 'hungry-delete)
+;;(global-hungry-delete-mode)
 
-(require 'smartparens-config)
+(use-package smartparens-config
+  :init
+  (smartparens-global-mode t)
+  )
+;;(require 'smartparens-config)
 ;;(add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
-(smartparens-global-mode t)
+;;(smartparens-global-mode t)
 
 ;; config js2-mode for js files
 (setq auto-mode-alist
@@ -72,25 +81,36 @@
 
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
-(global-company-mode t)
+;;(global-company-mode t)
 
-(require 'highlight-indentation)
-(highlight-indentation-mode t)
-(highlight-indentation-current-column-mode t)
+
+(use-package highlight-indentation
+  :init
+  (progn
+    (highlight-indentation-mode t)
+    (highlight-indentation-current-column-mode t)
+    )
+  )
+
+;;(require 'highlight-indentation)
+
+
 
 (window-numbering-mode)
-(require 'color-theme)
-(color-theme-initialize)
+(autoload 'color-theme "color-theme" "color-theme" t )
+;;(require 'color-theme)
+;;(color-theme-initialize)
 
+;;(use-package popwin
+;;  :init
+;;  (popwin-mode 1)
+;;  )
 (require 'popwin)
 (popwin-mode 1)
 
 
-
-
-
-(add-to-list 'load-path "~/.emacs.d/packages/git-emacs")
-(require 'git-emacs)
+;;(add-to-list 'load-path "~/.emacs.d/packages/git-emacs")
+;;(require 'git-emacs)
 ;;(require 'magit)
 ;;(require 'show-paren)
 
@@ -98,27 +118,53 @@
 ;;(setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
 ;;(setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
 ;;(ergoemacs-mode 1)
+(use-package company
+  :init
+  (global-company-mode t)
+  :config
+  (progn 
+    (define-key company-active-map (kbd "\C-n") 'company-select-next)
+    (define-key company-active-map (kbd "\C-p") 'company-select-previous)
+    (define-key company-active-map (kbd "\C-d") 'company-show-doc-buffer)
+    (define-key company-active-map (kbd "\C-v") 'company-show-location)
+    (define-key company-active-map (kbd "<tab>") 'company-complete)
+    (define-key company-active-map (kbd "\C-g") '(lambda ()
+						   (interactive)
+						   (company-abort)))
+    )
+  )
 
-(define-key company-active-map (kbd "\C-n") 'company-select-next)
-(define-key company-active-map (kbd "\C-p") 'company-select-previous)
-(define-key company-active-map (kbd "\C-d") 'company-show-doc-buffer)
-(define-key company-active-map (kbd "\C-v") 'company-show-location)
-(define-key company-active-map (kbd "<tab>") 'company-complete)
-(define-key company-active-map (kbd "\C-g") '(lambda ()
-					       (interactive)
-					       (company-abort)))
+(use-package ecb
+;;  :init
+;;  (use-package init-ecb)
+  :config
+  (progn
+    (require 'init-ecb)
+    (setq ecb-layout-name "leftright-sa-m")
+    (setq ecb-tip-of-the-day nil)
+    )
+  )
+;;(autoload 'ecb "ecb" "ecb" t)
+;;(eval-after-load 'ecb
+;;  (progn
+;;    (require 'ecb)
+;;    (require 'init-ecb)
+;;    (setq ecb-layout-name "leftright-sa-m")
+;;    (setq ecb-tip-of-the-day nil)
+;;    )
+;;  )
+;;(require 'ecb)
 
-(require 'ecb)
 
 ;;(setq ecb-auto-activate t ecb-tip-of-the-day nil)
-(setq ecb-layout-name "leftright-sa-m")
-(setq ecb-tip-of-the-day nil)
+
+
 ;;(require 'semantic-tag-folding nil 'noerror)
 ;;(global-semantic-tag-folding-mode 1)  
 
 (add-hook 'jdee-mode-hook 'hs-minor-mode)
 
-(require 'cedet)
+;;(require 'cedet)
 ;;(require 'semantic-ia)
 
 (provide 'init-packages)
