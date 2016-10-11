@@ -1,1 +1,42 @@
-;; Added by Package.el.  This must come before configurations of;; installed packages.  Don't delete this line.  If you don't want (setq  initial-frame-alist (quote ((fullscreen . maximized))))it,;; just comment it out by adding a semicolon to the start of the line.;; You may delete these explanatory comments.(add-to-list 'load-path "~/.emacs.d/lisp");;(load-file "~/.emacs.d/lisp/init-packages.el")(require 'init-packages)(require 'init-personal-functions)(require 'init-better-default)(require 'init-ui)(require 'init-keybindings)(require 'customer)(require 'init-org);;(require 'init-ecb);;   直接使用require ;;(load-file "~/.emacs.d/lisp/init-personal-functions.el");;(load-file "~/.emacs.d/lisp/init-better-default.el");;(load-file "~/.emacs.d/lisp/init-ui.el");;(load-file "~/.emacs.d/lisp/init-keybingdings.el");;(load-file "~/.emacs.d/lisp/customer.el")(custom-set-variables ;; custom-set-variables was added by Custom. ;; If you edit it by hand, you could mess it up, so be careful. ;; Your init file should contain only one such instance. ;; If there is more than one, they won't work right. '(company-idle-delay 0.08) '(company-minimum-prefix-length 1) '(custom-safe-themes (quote ("6c62b1cd715d26eb5aa53843ed9a54fc2b0d7c5e0f5118d4efafa13d7715c56e" default))) '(ecb-layout-window-sizes nil) '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2)) '(git-baseline-alist (quote (("d:/HOME/" . "origin/master"))) t) '(org-agenda-files nil))(custom-set-faces ;; custom-set-faces was added by Custom. ;; If you edit it by hand, you could mess it up, so be careful. ;; Your init file should contain only one such instance. ;; If there is more than one, they won't work right. '(js2-external-variable ((t (:foreground "dark gray")))))
+;;; init.el --- Spacemacs Initialization File
+;;
+;; Copyright (c) 2012-2016 Sylvain Benner & Contributors
+;;
+;; Author: Sylvain Benner <sylvain.benner@gmail.com>
+;; URL: https://github.com/syl20bnr/spacemacs
+;;
+;; This file is not part of GNU Emacs.
+;;
+;;; License: GPLv3
+
+;; Without this comment emacs25 adds (package-initialize) here
+;; (package-initialize)
+
+
+
+;;(require 'package)
+;;(add-to-list 'package-archives
+             ;;'("popkit" . "http://elpa.popkit.org/")
+;;             '("melpa" . "http://melpa.org/packages/")
+;;             t)
+;;(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+;;  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+;;(package-initialize)
+(setq gc-cons-threshold 100000000)
+
+(defconst spacemacs-version         "0.105.21" "Spacemacs version.")
+(defconst spacemacs-emacs-min-version   "24.3" "Minimal version of Emacs.")
+
+(if (not (version<= spacemacs-emacs-min-version emacs-version))
+    (message (concat "Your version of Emacs (%s) is too old. "
+                     "Spacemacs requires Emacs version %d or above.")
+             emacs-version spacemacs-emacs-min-version)
+  (load-file (concat user-emacs-directory "core/core-load-paths.el"))
+  (require 'core-spacemacs)
+  (spacemacs/init)
+  (spacemacs/maybe-install-dotfile)
+  (configuration-layer/sync)
+  (spacemacs/setup-startup-hook)
+  (require 'server)
+  (unless (server-running-p) (server-start)))
